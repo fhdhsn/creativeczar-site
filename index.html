@@ -14,7 +14,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='none' stroke='%23C24A24' stroke-width='6'/><text x='50' y='68' font-family='Georgia,serif' font-size='52' fill='%231A1714' text-anchor='middle'>C</text></svg>" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -137,16 +137,14 @@
 
       <!-- Project 03 — Gourmet Sarawak -->
       <article class="project">
-        <div class="project-visual project-visual--gs reveal-fade" data-parallax>
-          <div class="device-browser device-browser--dark">
-            <div class="browser-bar browser-bar--dark"><span></span><span></span><span></span><em>gourmetsarawak.com</em></div>
-            <div class="gs-screen">
-              <span class="gs-tag">Caution — highly addictive</span>
-              <h4 class="gs-head">It's not just food,<br />it's an <span>experience.</span></h4>
-              <span class="gs-pill">View the menu</span>
+        <div class="project-visual reveal-fade" data-parallax>
+          <div class="device-browser device-scroll" data-cursor>
+            <div class="browser-bar"><span></span><span></span><span></span><em>gourmetsarawak.com</em></div>
+            <div class="scroll-window">
+              <img class="scroll-shot" src="assets/gs-home.jpg" alt="Gourmet Sarawak homepage" loading="lazy" />
             </div>
+            <span class="scroll-hint">Hover to scroll the page →</span>
           </div>
-          <img class="gs-bowl" src="assets/gourmet-kolomee.png" alt="Gourmet Sarawak air-flown Kuching Kolo Mee" loading="lazy" />
         </div>
         <div class="project-info">
           <span class="project-index reveal-fade">03 — WordPress · Web</span>
@@ -157,12 +155,31 @@
           <ul class="project-tags reveal-fade">
             <li>Web Design</li><li>WordPress Dev</li><li>Art Direction</li>
           </ul>
-          <a href="#contact" class="link-arrow reveal-fade" data-cursor>
-            <span>Designed &amp; developed by Creative Czar</span>
-            <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          <a href="#work" class="link-arrow reveal-fade" data-cursor>
+            <span>See the full menu &amp; item pages below</span>
+            <svg viewBox="0 0 24 24"><path d="M7 7v10h10M17 7 7 17"/></svg>
           </a>
         </div>
       </article>
+
+      <!-- GS page gallery — menu / laksa / kolo mee -->
+      <div class="gs-gallery">
+        <figure class="gs-card reveal-fade" data-cursor>
+          <div class="browser-bar browser-bar--mini"><span></span><span></span><span></span><em>Menu</em></div>
+          <div class="scroll-window scroll-window--mini"><img class="scroll-shot" src="assets/gs-menu.jpg" alt="Gourmet Sarawak menu page" loading="lazy" /></div>
+          <figcaption>Menu</figcaption>
+        </figure>
+        <figure class="gs-card reveal-fade" data-cursor>
+          <div class="browser-bar browser-bar--mini"><span></span><span></span><span></span><em>Sarawak Laksa</em></div>
+          <div class="scroll-window scroll-window--mini"><img class="scroll-shot" src="assets/gs-laksa.jpg" alt="Gourmet Sarawak Sarawak Laksa item page" loading="lazy" /></div>
+          <figcaption>Item — Laksa</figcaption>
+        </figure>
+        <figure class="gs-card reveal-fade" data-cursor>
+          <div class="browser-bar browser-bar--mini"><span></span><span></span><span></span><em>Kolo Mee</em></div>
+          <div class="scroll-window scroll-window--mini"><img class="scroll-shot" src="assets/gs-kolomee.jpg" alt="Gourmet Sarawak Kolo Mee item page" loading="lazy" /></div>
+          <figcaption>Item — Kolo Mee</figcaption>
+        </figure>
+      </div>
     </section>
 
     <!-- CAPABILITIES -->
