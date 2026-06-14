@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creative Czar — Bold Brands, Built to Rule</title>
+  <meta name="description" content="Creative Czar is a vibrant, full-service creative & marketing agency. We craft brands, campaigns, and digital experiences that command attention." />
+  <meta name="theme-color" content="#0B0B12" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Creative Czar — Bold Brands, Built to Rule" />
+  <meta property="og:description" content="A vibrant creative & marketing agency crafting brands and experiences that command attention." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://creativeczar.tech" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👑</text></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- Loader -->
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <span class="loader-mark">CC</span>
+      <div class="loader-bar"><span id="loaderBar"></span></div>
+      <span class="loader-count" id="loaderCount">0</span>
+    </div>
+  </div>
+
+  <!-- Three.js canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Nav -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav-logo" data-cursor="hover">
+      <span class="crown">♛</span> Creative<span class="accent">Czar</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#work" data-cursor="hover">Work</a>
+      <a href="#services" data-cursor="hover">Services</a>
+      <a href="#process" data-cursor="hover">Process</a>
+      <a href="#about" data-cursor="hover">About</a>
+    </nav>
+    <a href="#contact" class="nav-cta" data-cursor="hover">Start a project</a>
+    <button class="nav-burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#work">Work</a>
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#about">About</a>
+    <a href="#contact">Start a project</a>
+  </div>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <div class="hero-badge reveal">
+          <span class="pulse"></span> Available for new projects — 2026
+        </div>
+        <h1 class="hero-title">
+          <span class="line"><span>Bold brands,</span></span>
+          <span class="line"><span>built to <em>rule.</em></span></span>
+        </h1>
+        <p class="hero-sub reveal">
+          We're a vibrant creative &amp; marketing studio crafting brand identities,
+          campaigns and digital experiences that don't ask for attention —
+          <strong>they command it.</strong>
+        </p>
+        <div class="hero-actions reveal">
+          <a href="#contact" class="btn btn-primary" data-cursor="hover">
+            <span>Start a project</span>
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#work" class="btn btn-ghost" data-cursor="hover">View our work</a>
+        </div>
+      </div>
+      <div class="hero-scroll reveal">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <section class="marquee-wrap" aria-hidden="true">
+      <div class="marquee" id="marquee">
+        <div class="marquee-track">
+          <span>Branding</span><span class="dot">✦</span>
+          <span>Web Design</span><span class="dot">✦</span>
+          <span>Campaigns</span><span class="dot">✦</span>
+          <span>Motion</span><span class="dot">✦</span>
+          <span>Strategy</span><span class="dot">✦</span>
+          <span>Social</span><span class="dot">✦</span>
+          <span>Branding</span><span class="dot">✦</span>
+          <span>Web Design</span><span class="dot">✦</span>
+          <span>Campaigns</span><span class="dot">✦</span>
+          <span>Motion</span><span class="dot">✦</span>
+          <span>Strategy</span><span class="dot">✦</span>
+          <span>Social</span><span class="dot">✦</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+      <div class="stat reveal"><span class="num" data-count="180">0</span><span class="plus">+</span><p>Projects shipped</p></div>
+      <div class="stat reveal"><span class="num" data-count="94">0</span><span class="plus">%</span><p>Client retention</p></div>
+      <div class="stat reveal"><span class="num" data-count="12">0</span><span class="plus">x</span><p>Avg. ROAS lift</p></div>
+      <div class="stat reveal"><span class="num" data-count="40">0</span><span class="plus">+</span><p>Industry awards</p></div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section services" id="services">
+      <div class="section-head">
+        <span class="eyebrow reveal">What we do</span>
+        <h2 class="reveal">Capabilities that<br /><span class="grad">move the needle.</span></h2>
+      </div>
+      <div class="services-grid">
+        <article class="service-card reveal" data-cursor="hover">
+          <span class="service-num">01</span>
+          <h3>Brand Identity</h3>
+          <p>Logos, systems, voice and the strategy beneath them. We build brands that are impossible to ignore and easy to love.</p>
+          <ul><li>Visual identity</li><li>Naming &amp; voice</li><li>Guidelines</li></ul>
+        </article>
+        <article class="service-card reveal" data-cursor="hover">
+          <span class="service-num">02</span>
+          <h3>Web &amp; Digital</h3>
+          <p>Immersive, lightning-fast websites and products engineered with motion, 3D and conversion baked in.</p>
+          <ul><li>Web design</li><li>Webflow / Next.js</li><li>3D &amp; WebGL</li></ul>
+        </article>
+        <article class="service-card reveal" data-cursor="hover">
+          <span class="service-num">03</span>
+          <h3>Growth Marketing</h3>
+          <p>Performance campaigns across paid, social and search that turn attention into measurable revenue.</p>
+          <ul><li>Paid media</li><li>SEO &amp; content</li><li>Analytics</li></ul>
+        </article>
+        <article class="service-card reveal" data-cursor="hover">
+          <span class="service-num">04</span>
+          <h3>Motion &amp; Content</h3>
+          <p>Scroll-stopping video, animation and social content built to perform on every feed and screen.</p>
+          <ul><li>Motion design</li><li>Social content</li><li>Art direction</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section class="section work" id="work">
+      <div class="section-head">
+        <span class="eyebrow reveal">Selected work</span>
+        <h2 class="reveal">Brands we helped<br /><span class="grad">reign supreme.</span></h2>
+      </div>
+      <div class="work-grid">
+        <a href="#contact" class="work-card reveal" data-cursor="view" style="--c1:#FF2E63;--c2:#7C3AED">
+          <div class="work-media"></div>
+          <div class="work-info"><h3>Nova Beverages</h3><span>Brand · Packaging · Campaign</span></div>
+        </a>
+        <a href="#contact" class="work-card reveal" data-cursor="view" style="--c1:#00E5FF;--c2:#7C3AED">
+          <div class="work-media"></div>
+          <div class="work-info"><h3>Helio Finance</h3><span>Identity · Web · Motion</span></div>
+        </a>
+        <a href="#contact" class="work-card reveal" data-cursor="view" style="--c1:#C6FF00;--c2:#00E5FF">
+          <div class="work-media"></div>
+          <div class="work-info"><h3>Pulse Fitness</h3><span>Rebrand · Social · Growth</span></div>
+        </a>
+        <a href="#contact" class="work-card reveal" data-cursor="view" style="--c1:#FF2E63;--c2:#FF9E00">
+          <div class="work-media"></div>
+          <div class="work-info"><h3>Atlas Travel</h3><span>Web · 3D · Content</span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="section process" id="process">
+      <div class="section-head">
+        <span class="eyebrow reveal">How we work</span>
+        <h2 class="reveal">A process built<br /><span class="grad">for momentum.</span></h2>
+      </div>
+      <div class="process-list">
+        <div class="process-step reveal"><span>01</span><div><h3>Discover</h3><p>We dig into your goals, market and audience to find the angle nobody else has spotted.</p></div></div>
+        <div class="process-step reveal"><span>02</span><div><h3>Define</h3><p>Strategy, positioning and a creative direction that gives every decision a north star.</p></div></div>
+        <div class="process-step reveal"><span>03</span><div><h3>Design</h3><p>We craft the identity, experience and assets — obsessing over every pixel and frame.</p></div></div>
+        <div class="process-step reveal"><span>04</span><div><h3>Deploy</h3><p>We launch, measure and optimize — turning bold ideas into compounding results.</p></div></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section about" id="about">
+      <div class="about-grid">
+        <div class="about-text">
+          <span class="eyebrow reveal">Who we are</span>
+          <h2 class="reveal">We don't follow trends.<br /><span class="grad">We set the throne.</span></h2>
+          <p class="reveal">Creative Czar is a collective of strategists, designers and engineers obsessed with building brands that lead their categories. We blend sharp strategy with cutting-edge craft — and a relentless bias for bold.</p>
+          <p class="reveal">From scrappy startups to category leaders, we partner with teams who refuse to blend in.</p>
+          <a href="#contact" class="btn btn-primary reveal" data-cursor="hover"><span>Work with us</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="about-marks">
+          <div class="mark reveal"><span class="grad">Strategy</span></div>
+          <div class="mark reveal"><span class="grad">Design</span></div>
+          <div class="mark reveal"><span class="grad">Engineering</span></div>
+          <div class="mark reveal"><span class="grad">Growth</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA / CONTACT -->
+    <section class="section contact" id="contact">
+      <div class="contact-inner reveal">
+        <span class="eyebrow">Let's talk</span>
+        <h2 class="contact-title">Ready to <span class="grad">rule</span><br />your category?</h2>
+        <p>Tell us what you're building. We'll bring the bold.</p>
+        <a href="mailto:hello@creativeczar.tech" class="btn btn-primary btn-lg" data-cursor="hover">
+          <span>hello@creativeczar.tech</span>
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <a href="#top" class="nav-logo"><span class="crown">♛</span> Creative<span class="accent">Czar</span></a>
+      <div class="footer-social">
+        <a href="#" data-cursor="hover">Instagram</a>
+        <a href="#" data-cursor="hover">Dribbble</a>
+        <a href="#" data-cursor="hover">LinkedIn</a>
+        <a href="#" data-cursor="hover">X</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Creative Czar. All rights reserved.</span>
+      <span>creativeczar.tech</span>
+    </div>
+  </footer>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script type="importmap">
+    { "imports": { "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js" } }
+  </script>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
