@@ -14,7 +14,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='none' stroke='%23C24A24' stroke-width='6'/><text x='50' y='68' font-family='Georgia,serif' font-size='52' fill='%231A1714' text-anchor='middle'>C</text></svg>" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -82,7 +82,7 @@
     <section class="work" id="work">
       <header class="work-head">
         <span class="eyebrow reveal-fade">Selected Work</span>
-        <h2 class="reveal-fade">Two recent <em>builds.</em></h2>
+        <h2 class="reveal-fade">Three recent <em>builds.</em></h2>
       </header>
 
       <!-- Project 01 — ChargePK -->
@@ -116,10 +116,7 @@
         <div class="project-visual reveal-fade" data-parallax>
           <div class="device-browser">
             <div class="browser-bar"><span></span><span></span><span></span><em>metapod.com</em></div>
-            <div class="browser-screen">
-              <div class="shop-hero"><span class="shop-tag">By tech enthusiasts, for everyone</span><strong>Shop the latest tech.</strong></div>
-              <div class="shop-grid"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            </div>
+            <img class="browser-shot" src="assets/metapod.png" alt="Metapod SG Shopify storefront homepage" loading="lazy" />
           </div>
         </div>
         <div class="project-info">
@@ -133,6 +130,35 @@
           </ul>
           <a href="https://metapod.com" target="_blank" rel="noopener" class="link-arrow reveal-fade" data-cursor>
             <span>Visit metapod.com</span>
+            <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Project 03 — Gourmet Sarawak -->
+      <article class="project">
+        <div class="project-visual project-visual--gs reveal-fade" data-parallax>
+          <div class="device-browser device-browser--dark">
+            <div class="browser-bar browser-bar--dark"><span></span><span></span><span></span><em>gourmetsarawak.com</em></div>
+            <div class="gs-screen">
+              <span class="gs-tag">Caution — highly addictive</span>
+              <h4 class="gs-head">It's not just food,<br />it's an <span>experience.</span></h4>
+              <span class="gs-pill">View the menu</span>
+            </div>
+          </div>
+          <img class="gs-bowl" src="assets/gourmet-kolomee.png" alt="Gourmet Sarawak air-flown Kuching Kolo Mee" loading="lazy" />
+        </div>
+        <div class="project-info">
+          <span class="project-index reveal-fade">03 — WordPress · Web</span>
+          <h3 class="project-title reveal-fade">Gourmet&nbsp;Sarawak</h3>
+          <p class="project-lede reveal-fade">A bold, appetite-led website for a Sarawakian eatery at Singapore's
+            Changi Airport — celebrating Kuching food culture like Kolo Mee and Laksa. Brand-driven art direction and a
+            custom WordPress build, designed and developed end to end.</p>
+          <ul class="project-tags reveal-fade">
+            <li>Web Design</li><li>WordPress Dev</li><li>Art Direction</li>
+          </ul>
+          <a href="#contact" class="link-arrow reveal-fade" data-cursor>
+            <span>Designed &amp; developed by Creative Czar</span>
             <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>
           </a>
         </div>
@@ -202,6 +228,7 @@
     <div class="footer-links">
       <a href="https://chargepk.com" target="_blank" rel="noopener" data-cursor>ChargePK</a>
       <a href="https://metapod.com" target="_blank" rel="noopener" data-cursor>Metapod</a>
+      <a href="#work" data-cursor>Gourmet Sarawak</a>
       <a href="mailto:hello@creativeczar.tech" data-cursor>Email</a>
     </div>
     <span class="footer-copy">© 2026 — creativeczar.tech</span>

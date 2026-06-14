@@ -141,14 +141,20 @@ main, .nav, .footer { position: relative; z-index: 2; }
 .browser-bar { display: flex; align-items: center; gap: 7px; padding: 12px 16px; background: #f3f1ec; border-bottom: 1px solid var(--line); }
 .browser-bar span { width: 10px; height: 10px; border-radius: 50%; background: #d9d4ca; }
 .browser-bar em { margin-left: 14px; font-style: normal; font-size: 12px; color: #9a948a; }
-.browser-screen { padding: 30px 28px 34px; background: linear-gradient(180deg, #fbfaf7, #f1ede5); }
-.shop-hero { margin-bottom: 26px; }
-.shop-tag { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
-.shop-hero strong { display: block; font-family: var(--serif); font-weight: 400; font-size: 30px; letter-spacing: -.02em; color: var(--ink); margin-top: 8px; }
-.shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.shop-grid i { aspect-ratio: 1; border-radius: 10px; background: linear-gradient(135deg, #e9e4da, #f6f3ee); border: 1px solid rgba(26,23,20,.06); }
-.shop-grid i:nth-child(2) { background: linear-gradient(135deg, #efd9cf, #f6ece6); }
-.shop-grid i:nth-child(5) { background: linear-gradient(135deg, #e3ddd0, #f0ece3); }
+.browser-shot { display: block; width: 100%; height: auto; }
+
+/* Gourmet Sarawak — dark hero recreation + floating bowl */
+.project-visual--gs { overflow: visible; }
+.device-browser--dark { background: #0e0e0e; border-color: rgba(255,255,255,.08); }
+.browser-bar--dark { background: #171717; border-bottom-color: rgba(255,255,255,.07); }
+.browser-bar--dark span { background: #3a3a3a; }
+.browser-bar--dark em { color: #7e7e7e; }
+.gs-screen { padding: 38px 34px 56px; background: radial-gradient(120% 90% at 80% 10%, #2a2a2a, #0c0c0c 70%); }
+.gs-tag { display: inline-block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #FF7A1A; border: 1px solid rgba(255,122,26,.4); padding: 5px 11px; border-radius: 100px; margin-bottom: 20px; }
+.gs-head { font-family: "Anton", var(--sans); font-weight: 400; text-transform: uppercase; color: #fff; font-size: clamp(26px, 4vw, 40px); line-height: .98; letter-spacing: .005em; }
+.gs-head span { color: #FF7A1A; }
+.gs-pill { display: inline-block; margin-top: 22px; background: #FF7A1A; color: #1a1a1a; font-weight: 600; font-size: 12px; padding: 9px 18px; border-radius: 100px; }
+.gs-bowl { position: absolute; right: -6%; bottom: -10%; width: clamp(150px, 20vw, 230px); height: auto; z-index: 3; filter: drop-shadow(0 24px 30px rgba(0,0,0,.35)); pointer-events: none; }
 
 /* ---------- Capabilities ---------- */
 .capabilities { padding: clamp(70px, 11vw, 150px) clamp(20px, 5vw, 60px); }
