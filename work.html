@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Creative Czar — Design & Development Studio</title>
-  <meta name="description" content="Creative Czar is an independent design & development studio crafting premium digital products, brands and commerce experiences — from native apps to Shopify storefronts." />
+  <title>Work — Creative Czar</title>
+  <meta name="description" content="Selected projects by Creative Czar — ChargePK (iOS), Metapod SG (Shopify) and Gourmet Sarawak (WordPress). Designed and developed end to end." />
   <meta name="theme-color" content="#EBE6DB" />
 
-  <meta property="og:title" content="Creative Czar — Design & Development Studio" />
-  <meta property="og:description" content="An independent studio crafting premium digital products, brands and commerce experiences." />
+  <meta property="og:title" content="Work — Creative Czar" />
+  <meta property="og:description" content="Selected projects — apps, brands and commerce experiences, designed and built end to end." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://creativeczar.tech" />
+  <meta property="og:url" content="https://creativeczar.tech/work.html" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,70 +21,41 @@
 <body>
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
-  <!-- Quiet WebGL gradient-fog backdrop -->
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
   <div class="grain" aria-hidden="true"></div>
 
-  <!-- Loader -->
   <div class="loader" id="loader">
     <div class="loader-row"><span class="loader-word">Creative Czar</span><span class="loader-pct" id="loaderPct">00</span></div>
     <div class="loader-line"><span id="loaderBar"></span></div>
   </div>
 
-  <!-- Nav -->
   <header class="nav" id="nav">
-    <a href="#top" class="wordmark" data-cursor>Creative&nbsp;<em>Czar</em></a>
+    <a href="index.html#top" class="wordmark" data-cursor>Creative&nbsp;<em>Czar</em></a>
     <nav class="nav-links">
-      <a href="work.html" data-cursor>Work</a>
-      <a href="#studio" data-cursor>Studio</a>
-      <a href="#capabilities" data-cursor>Capabilities</a>
-      <a href="#contact" class="nav-contact" data-cursor>Contact</a>
+      <a href="work.html" class="is-active" data-cursor>Work</a>
+      <a href="index.html#studio" data-cursor>Studio</a>
+      <a href="index.html#capabilities" data-cursor>Capabilities</a>
+      <a href="index.html#contact" class="nav-contact" data-cursor>Contact</a>
     </nav>
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
   </header>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="work.html">Work</a><a href="#studio">Studio</a><a href="#capabilities">Capabilities</a><a href="#contact">Contact</a>
+    <a href="work.html">Work</a><a href="index.html#studio">Studio</a><a href="index.html#capabilities">Capabilities</a><a href="index.html#contact">Contact</a>
   </div>
 
   <main id="top">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-meta reveal-fade">
-        <span>Design &amp; Development Studio</span>
-        <span>Est. Lahore — Worldwide</span>
-      </div>
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+      <span class="eyebrow reveal-fade">Work</span>
       <h1 class="hero-title">
-        <span class="ln"><span>We craft</span></span>
-        <span class="ln"><span><em>premium</em> digital</span></span>
-        <span class="ln"><span>products &amp; brands.</span></span>
+        <span class="ln"><span>Selected</span></span>
+        <span class="ln"><span><em>projects.</em></span></span>
       </h1>
-      <div class="hero-foot">
-        <p class="reveal-fade">An independent studio partnering with founders and teams to design and build
-          considered apps, identities and commerce experiences — end to end.</p>
-        <a href="#work" class="link-arrow reveal-fade" data-cursor>
-          <span>Selected work</span>
-          <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>
-        </a>
-      </div>
-      <div class="scroll-cue reveal-fade"><span></span></div>
+      <p class="reveal-fade">A close look at recent work — native apps, commerce storefronts and
+        brand-led websites, each designed and developed end to end.</p>
     </section>
 
-    <!-- MANIFESTO -->
-    <section class="manifesto">
-      <p class="manifesto-text">
-        <span class="reveal-word">We believe great work lives in the details —</span>
-        <span class="reveal-word">the weight of a typeface, the ease of a transition,</span>
-        <span class="reveal-word">the quiet confidence of a brand that knows itself.</span>
-      </p>
-    </section>
-
-    <!-- SELECTED WORK -->
-    <section class="work" id="work">
-      <header class="work-head">
-        <span class="eyebrow reveal-fade">Selected Work</span>
-        <h2 class="reveal-fade">Our recent <em>builds.</em></h2>
-      </header>
-
+    <section class="work work--page" id="work">
       <!-- Project 01 — ChargePK -->
       <article class="project">
         <div class="project-visual reveal-fade" data-parallax>
@@ -162,7 +133,7 @@
         </div>
       </article>
 
-      <!-- GS page gallery — menu / laksa / kolo mee -->
+      <!-- GS page gallery -->
       <div class="gs-gallery">
         <figure class="gs-card reveal-fade" data-cursor>
           <div class="browser-bar browser-bar--mini"><span></span><span></span><span></span><em>Menu</em></div>
@@ -180,57 +151,6 @@
           <figcaption>Item — Kolo Mee</figcaption>
         </figure>
       </div>
-      <div class="work-more">
-        <a href="work.html" class="link-arrow reveal-fade" data-cursor>
-          <span>View all work</span>
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-    </section>
-
-    <!-- CAPABILITIES -->
-    <section class="capabilities" id="capabilities">
-      <header class="cap-head">
-        <span class="eyebrow reveal-fade">Capabilities</span>
-        <h2 class="reveal-fade">What we do, <em>well.</em></h2>
-      </header>
-      <ol class="cap-list">
-        <li class="cap-row reveal-fade">
-          <span class="cap-num">01</span>
-          <h3>Brand &amp; Identity</h3>
-          <p>Naming, visual systems and art direction for brands that intend to last.</p>
-        </li>
-        <li class="cap-row reveal-fade">
-          <span class="cap-num">02</span>
-          <h3>Product &amp; UX</h3>
-          <p>Research, interface design and prototyping for apps that feel effortless.</p>
-        </li>
-        <li class="cap-row reveal-fade">
-          <span class="cap-num">03</span>
-          <h3>Web &amp; Shopify</h3>
-          <p>Editorial sites and high-performing storefronts, designed and developed in-house.</p>
-        </li>
-        <li class="cap-row reveal-fade">
-          <span class="cap-num">04</span>
-          <h3>Engineering</h3>
-          <p>Native iOS, modern web and headless commerce — shipped with care.</p>
-        </li>
-      </ol>
-    </section>
-
-    <!-- STUDIO -->
-    <section class="studio" id="studio">
-      <span class="eyebrow reveal-fade">The Studio</span>
-      <p class="studio-text">
-        <span class="reveal-word">Creative Czar is a small, senior studio led by designer-developer</span>
-        <span class="reveal-word"><em>Fahad Hassan.</em> We take on a handful of projects at a time so each one</span>
-        <span class="reveal-word">gets the craft it deserves — from first sketch to shipped product.</span>
-      </p>
-      <div class="studio-stats">
-        <div class="stat reveal-fade"><strong>2023</strong><span>Established</span></div>
-        <div class="stat reveal-fade"><strong>End&nbsp;to&nbsp;end</strong><span>Design &amp; build</span></div>
-        <div class="stat reveal-fade"><strong>iOS · Web</strong><span>Shopify · AI</span></div>
-      </div>
     </section>
 
     <!-- CONTACT -->
@@ -242,16 +162,17 @@
       </a>
       <div class="contact-foot">
         <a href="mailto:hello@creativeczar.tech" class="link-arrow reveal-fade" data-cursor><span>hello@creativeczar.tech</span><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+        <a href="index.html#top" class="link-arrow reveal-fade" data-cursor><span>Back to home</span><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <span class="wordmark">Creative&nbsp;<em>Czar</em></span>
+    <a href="index.html#top" class="wordmark" data-cursor>Creative&nbsp;<em>Czar</em></a>
     <div class="footer-links">
       <a href="https://chargepk.com" target="_blank" rel="noopener" data-cursor>ChargePK</a>
       <a href="https://metapod.com" target="_blank" rel="noopener" data-cursor>Metapod</a>
-      <a href="#work" data-cursor>Gourmet Sarawak</a>
+      <a href="work.html" data-cursor>Gourmet Sarawak</a>
       <a href="mailto:hello@creativeczar.tech" data-cursor>Email</a>
     </div>
     <span class="footer-copy">© 2026 — creativeczar.tech</span>
