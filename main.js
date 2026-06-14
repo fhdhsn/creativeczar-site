@@ -1,293 +1,224 @@
 import * as THREE from "three";
 
 /* ============================================================
-   CREATIVE CZAR — interactions
-   - Three.js animated particle field (mouse reactive)
-   - GSAP scroll reveals, hero timeline, marquee, counters
-   - Custom cursor, nav, mobile menu, loader
+   CREATIVE CZAR — premium editorial studio
+   - Three.js: a quiet, slow-drifting gradient "fog" on a
+     full-screen plane (atmospheric, never distracting)
+   - GSAP: line-mask headline reveals, word fades, parallax
+   - Minimal ink cursor, loader with a hard fallback
    ============================================================ */
 
 const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* ---------------- THREE.JS PARTICLE FIELD ---------------- */
-let renderer, scene, camera, points, geometry;
-const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
-const COUNT = window.innerWidth < 768 ? 4000 : 9000;
+/* ---------------- THREE.JS — soft gradient fog ---------------- */
+let renderer, scene, camera, mesh, uniforms;
+const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 };
 
 function initThree() {
   const canvas = document.getElementById("bg-canvas");
   renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-  camera.position.z = 14;
+  camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
-  geometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(COUNT * 3);
-  const colors = new Float32Array(COUNT * 3);
-  const scales = new Float32Array(COUNT);
-
-  // Brand palette
-  const palette = [
-    new THREE.Color("#FF2E63"),
-    new THREE.Color("#7C3AED"),
-    new THREE.Color("#00E5FF"),
-    new THREE.Color("#C6FF00"),
-    new THREE.Color("#FF9E00"),
-  ];
-
-  // Distribute particles on a sphere-ish flowing form
-  for (let i = 0; i < COUNT; i++) {
-    const i3 = i * 3;
-    const r = 8 + Math.random() * 4;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2 * Math.random() - 1);
-    positions[i3] = r * Math.sin(phi) * Math.cos(theta);
-    positions[i3 + 1] = r * Math.sin(phi) * Math.sin(theta) * 0.7;
-    positions[i3 + 2] = r * Math.cos(phi);
-
-    const c = palette[Math.floor(Math.random() * palette.length)];
-    colors[i3] = c.r; colors[i3 + 1] = c.g; colors[i3 + 2] = c.b;
-    scales[i] = Math.random();
-  }
-
-  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-  geometry.setAttribute("aScale", new THREE.BufferAttribute(scales, 1));
-  geometry.userData.basePositions = positions.slice();
+  uniforms = {
+    uTime: { value: 0 },
+    uRes: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+    uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+    // warm, low-contrast palette tuned to the ivory page
+    uBg: { value: new THREE.Color("#EBE6DB") },
+    uC1: { value: new THREE.Color("#E4D8C6") }, // warm sand
+    uC2: { value: new THREE.Color("#EBD7CB") }, // faint ember tint
+    uC3: { value: new THREE.Color("#E6E2D6") }, // soft cream
+  };
 
   const material = new THREE.ShaderMaterial({
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    uniforms: { uTime: { value: 0 }, uSize: { value: renderer.getPixelRatio() * 26 } },
+    uniforms,
     vertexShader: `
-      uniform float uTime;
-      uniform float uSize;
-      attribute float aScale;
-      varying vec3 vColor;
-      void main() {
-        vColor = color;
-        vec3 p = position;
-        float t = uTime * 0.5;
-        p.x += sin(t + position.y * 0.5) * 0.4;
-        p.y += cos(t + position.x * 0.5) * 0.4;
-        p.z += sin(t + position.z * 0.4) * 0.4;
-        vec4 mv = modelViewMatrix * vec4(p, 1.0);
-        gl_Position = projectionMatrix * mv;
-        gl_PointSize = uSize * (aScale * 0.6 + 0.4) * (1.0 / -mv.z);
-      }
+      varying vec2 vUv;
+      void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }
     `,
     fragmentShader: `
-      varying vec3 vColor;
-      void main() {
-        float d = distance(gl_PointCoord, vec2(0.5));
-        if (d > 0.5) discard;
-        float alpha = smoothstep(0.5, 0.0, d);
-        gl_FragColor = vec4(vColor, alpha * 0.9);
+      precision highp float;
+      varying vec2 vUv;
+      uniform float uTime; uniform vec2 uRes; uniform vec2 uMouse;
+      uniform vec3 uBg, uC1, uC2, uC3;
+
+      // simplex-ish value noise
+      vec2 hash(vec2 p){ p=vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))); return -1.0+2.0*fract(sin(p)*43758.5453123); }
+      float noise(vec2 p){
+        vec2 i=floor(p); vec2 f=fract(p); vec2 u=f*f*(3.0-2.0*f);
+        return mix(mix(dot(hash(i+vec2(0.0,0.0)),f-vec2(0.0,0.0)),dot(hash(i+vec2(1.0,0.0)),f-vec2(1.0,0.0)),u.x),
+                   mix(dot(hash(i+vec2(0.0,1.0)),f-vec2(0.0,1.0)),dot(hash(i+vec2(1.0,1.0)),f-vec2(1.0,1.0)),u.x),u.y);
+      }
+      float fbm(vec2 p){ float v=0.0,a=0.5; for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.0; a*=0.5; } return v; }
+
+      void main(){
+        vec2 uv = vUv;
+        vec2 asp = vec2(uRes.x/uRes.y, 1.0);
+        vec2 p = uv * asp;
+        float t = uTime * 0.025;                 // very slow
+        vec2 m = (uMouse - 0.5) * 0.25;          // gentle mouse drift
+
+        float n1 = fbm(p * 1.6 + vec2(t, -t) + m);
+        float n2 = fbm(p * 2.4 - vec2(t*0.7, t) + n1);
+        float blend = smoothstep(0.0, 1.0, n1 * 0.5 + 0.5);
+        float blend2 = smoothstep(0.0, 1.0, n2 * 0.5 + 0.5);
+
+        vec3 col = mix(uBg, uC1, blend * 0.9);
+        col = mix(col, uC2, blend2 * 0.5);
+        col = mix(col, uC3, smoothstep(0.3, 0.9, fbm(p*0.9 + t)) * 0.45);
+
+        // soft vignette toward the base bg so edges stay calm
+        float vig = smoothstep(1.25, 0.2, length(uv - 0.5));
+        col = mix(uBg, col, 0.65 + vig * 0.35);
+
+        gl_FragColor = vec4(col, 1.0);
       }
     `,
-    vertexColors: true,
   });
 
-  points = new THREE.Points(geometry, material);
-  scene.add(points);
+  mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+  scene.add(mesh);
 
   window.addEventListener("resize", onResize);
-  animate();
+  if (!prefersReduced) animate();
+  else renderer.render(scene, camera);
 }
 
 function onResize() {
   if (!renderer) return;
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  uniforms.uRes.value.set(window.innerWidth, window.innerHeight);
 }
 
-let scrollProgress = 0;
 const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
-  const t = clock.getElapsedTime();
-  points.material.uniforms.uTime.value = t;
-
-  // smooth mouse follow
-  pointer.x += (pointer.tx - pointer.x) * 0.05;
-  pointer.y += (pointer.ty - pointer.y) * 0.05;
-
-  // rotation driven by mouse + time + scroll
-  points.rotation.y = t * 0.04 + pointer.x * 0.4;
-  points.rotation.x = pointer.y * 0.3 + scrollProgress * 0.6;
-  camera.position.z = 14 - scrollProgress * 3;
-
+  uniforms.uTime.value = clock.getElapsedTime();
+  mouse.x += (mouse.tx - mouse.x) * 0.04;
+  mouse.y += (mouse.ty - mouse.y) * 0.04;
+  uniforms.uMouse.value.set(mouse.x, mouse.y);
   renderer.render(scene, camera);
 }
 
 window.addEventListener("pointermove", (e) => {
-  pointer.tx = (e.clientX / window.innerWidth) * 2 - 1;
-  pointer.ty = -((e.clientY / window.innerHeight) * 2 - 1);
-});
-window.addEventListener("scroll", () => {
-  const max = document.body.scrollHeight - window.innerHeight;
-  scrollProgress = max > 0 ? window.scrollY / max : 0;
+  mouse.tx = e.clientX / window.innerWidth;
+  mouse.ty = 1 - e.clientY / window.innerHeight;
 });
 
-/* ---------------- CUSTOM CURSOR ---------------- */
+/* ---------------- Minimal cursor ---------------- */
 function initCursor() {
   const cursor = document.getElementById("cursor");
-  const dot = document.getElementById("cursorDot");
   if (!cursor || window.matchMedia("(hover: none)").matches) return;
-  const pos = { x: innerWidth / 2, y: innerHeight / 2 };
-  const dotPos = { ...pos };
-  window.addEventListener("pointermove", (e) => { pos.tx = e.clientX; pos.ty = e.clientY; });
-  function loop() {
-    pos.x += ((pos.tx ?? pos.x) - pos.x) * 0.18;
-    pos.y += ((pos.ty ?? pos.y) - pos.y) * 0.18;
-    dotPos.x += ((pos.tx ?? pos.x) - dotPos.x) * 0.5;
-    dotPos.y += ((pos.ty ?? pos.y) - dotPos.y) * 0.5;
-    cursor.style.transform = `translate(${pos.x}px, ${pos.y}px) translate(-50%,-50%)`;
-    dot.style.transform = `translate(${dotPos.x}px, ${dotPos.y}px) translate(-50%,-50%)`;
+  const p = { x: innerWidth / 2, y: innerHeight / 2, tx: innerWidth / 2, ty: innerHeight / 2 };
+  window.addEventListener("pointermove", (e) => { p.tx = e.clientX; p.ty = e.clientY; });
+  (function loop() {
+    p.x += (p.tx - p.x) * 0.2; p.y += (p.ty - p.y) * 0.2;
+    cursor.style.transform = `translate(${p.x}px, ${p.y}px) translate(-50%,-50%)`;
     requestAnimationFrame(loop);
-  }
-  loop();
-  document.querySelectorAll("[data-cursor]").forEach((el) => {
-    const type = el.getAttribute("data-cursor");
-    el.addEventListener("mouseenter", () => cursor.classList.add(type));
-    el.addEventListener("mouseleave", () => cursor.classList.remove(type));
+  })();
+  document.querySelectorAll("[data-cursor], a, button").forEach((el) => {
+    el.addEventListener("mouseenter", () => cursor.classList.add("grow"));
+    el.addEventListener("mouseleave", () => cursor.classList.remove("grow"));
   });
 }
 
-/* ---------------- NAV + MOBILE MENU ---------------- */
+/* ---------------- Nav ---------------- */
 function initNav() {
   const nav = document.getElementById("nav");
-  window.addEventListener("scroll", () => {
-    nav.classList.toggle("scrolled", window.scrollY > 40);
-  });
+  window.addEventListener("scroll", () => nav.classList.toggle("scrolled", window.scrollY > 30));
   const burger = document.getElementById("burger");
   const menu = document.getElementById("mobileMenu");
-  burger.addEventListener("click", () => {
-    burger.classList.toggle("open");
-    menu.classList.toggle("open");
-  });
-  menu.querySelectorAll("a").forEach((a) =>
-    a.addEventListener("click", () => { burger.classList.remove("open"); menu.classList.remove("open"); })
-  );
+  burger.addEventListener("click", () => { burger.classList.toggle("open"); menu.classList.toggle("open"); });
+  menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => { burger.classList.remove("open"); menu.classList.remove("open"); }));
 }
 
-/* ---------------- GSAP ANIMATIONS ---------------- */
-function initGsap(animate = true) {
-  if (typeof gsap === "undefined") { revealAll(); return; }
-  gsap.registerPlugin(ScrollTrigger);
-
-  // If we're in fallback mode (content already force-revealed), skip the
-  // entrance animations that would temporarily hide content — but still wire
-  // up the non-hiding enhancements (marquee, counters, parallax) below.
-  if (animate) {
-    // Hero intro
-    gsap.set(".hero-badge, .hero-sub, .hero-actions, .hero-scroll", { y: 30 });
-    const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-    tl.from(".hero-title .line span", { yPercent: 110, duration: 1.1, stagger: 0.12 })
-      .to(".hero-badge", { opacity: 1, y: 0, duration: 0.8 }, "-=0.7")
-      .to(".hero-sub", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6")
-      .to(".hero-actions", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6")
-      .to(".hero-scroll", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6");
-
-    // Generic reveals
-    gsap.utils.toArray(".reveal").forEach((el) => {
-      if (el.closest(".hero")) return;
-      gsap.to(el, {
-        opacity: 1, y: 0, duration: 1, ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 88%" },
-      });
-    });
-  }
-
-  // Stat counters
-  gsap.utils.toArray(".stat .num").forEach((el) => {
-    const target = +el.dataset.count;
-    if (!animate) { el.textContent = target; return; }
-    ScrollTrigger.create({
-      trigger: el, start: "top 90%", once: true,
-      onEnter: () => {
-        gsap.to({ v: 0 }, {
-          v: target, duration: 2, ease: "power2.out",
-          onUpdate: function () { el.textContent = Math.round(this.targets()[0].v); },
-        });
-      },
-    });
-  });
-
-  // Marquee scroll-linked drift
-  const track = document.querySelector(".marquee-track");
-  if (track) {
-    gsap.to(track, {
-      xPercent: -50, repeat: -1, duration: 20, ease: "none",
-    });
-    gsap.to(track, {
-      x: "+=200",
-      scrollTrigger: { trigger: ".marquee-wrap", scrub: 1, start: "top bottom", end: "bottom top" },
-    });
-  }
-
-  // Section heading parallax
-  gsap.utils.toArray(".section-head h2").forEach((h) => {
-    gsap.from(h, {
-      backgroundPositionX: "100%",
-      scrollTrigger: { trigger: h, scrub: 1, start: "top 80%", end: "top 30%" },
-    });
-  });
-}
-
-/* ---------------- LOADER ---------------- */
+/* ---------------- Loader (with hard fallback) ---------------- */
 let booted = false;
-
-// Guaranteed, RAF-independent way to reveal the page. Safe to call multiple
-// times. Protects against GSAP failing to load or rAF being throttled — the
-// site must never get stuck behind a frozen loader with hidden content.
 function revealAll() {
   if (booted) return;
   booted = true;
   const loader = document.getElementById("loader");
   if (loader) loader.style.display = "none";
-  document.querySelectorAll(".reveal, .hero-badge, .hero-sub, .hero-actions, .hero-scroll")
-    .forEach((el) => { el.style.opacity = "1"; el.style.transform = "none"; });
+  document.querySelectorAll(".reveal-fade, .reveal-word").forEach((el) => { el.style.opacity = "1"; el.style.transform = "none"; });
+  document.querySelectorAll(".ln > span").forEach((el) => { el.style.transform = "none"; });
 }
 
 function runLoader(done) {
   const loader = document.getElementById("loader");
   const bar = document.getElementById("loaderBar");
-  const count = document.getElementById("loaderCount");
-  if (!loader || prefersReduced) { revealAll(); done(); return; }
+  const pct = document.getElementById("loaderPct");
+  if (!loader || prefersReduced) { revealAll(); done(false); return; }
 
-  // Hard safety net: if the GSAP-driven loader hasn't finished in 3.5s
-  // (CDN blocked, throttled rAF, etc.), force the page open anyway and tell
-  // the caller to wire up animations in non-hiding fallback mode.
+  // Never let content stay hidden behind the loader (CDN/throttle safety).
   const safety = setTimeout(() => { revealAll(); done(false); }, 3500);
 
   const obj = { v: 0 };
   gsap.to(obj, {
-    v: 100, duration: 1.6, ease: "power2.inOut",
-    onUpdate: () => { const v = Math.round(obj.v); bar.style.width = v + "%"; count.textContent = v; },
+    v: 100, duration: 1.5, ease: "power2.inOut",
+    onUpdate: () => { const v = Math.round(obj.v); bar.style.width = v + "%"; pct.textContent = String(v).padStart(2, "0"); },
     onComplete: () => {
       gsap.to(loader, {
-        yPercent: -100, duration: 0.9, ease: "power4.inOut",
+        yPercent: -100, duration: 1.0, ease: "power4.inOut",
         onComplete: () => { clearTimeout(safety); loader.style.display = "none"; booted = true; done(true); },
       });
     },
   });
 }
 
-/* ---------------- BOOT ---------------- */
+/* ---------------- GSAP reveals ---------------- */
+function initGsap(animate = true) {
+  if (typeof gsap === "undefined") { revealAll(); return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (!animate) { revealAll(); return; }
+
+  // Hero line masks
+  gsap.to(".hero-title .ln > span", { y: 0, duration: 1.2, ease: "power4.out", stagger: 0.1 });
+
+  // Generic fade-ups
+  gsap.utils.toArray(".reveal-fade").forEach((el) => {
+    if (el.closest(".hero")) {
+      gsap.to(el, { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.4 });
+      return;
+    }
+    gsap.to(el, {
+      opacity: 1, y: 0, duration: 1, ease: "power3.out",
+      scrollTrigger: { trigger: el, start: "top 90%" },
+    });
+  });
+
+  // Word-by-word statement reveals
+  gsap.utils.toArray(".reveal-word").forEach((el) => {
+    gsap.to(el, {
+      opacity: 1, duration: 1.1, ease: "power2.out",
+      scrollTrigger: { trigger: el, start: "top 88%" },
+    });
+  });
+
+  // Section heading line masks
+  gsap.utils.toArray(".contact-mail .ln > span").forEach((el) => {
+    gsap.to(el, { y: 0, duration: 1.1, ease: "power4.out",
+      scrollTrigger: { trigger: ".contact-mail", start: "top 80%" } });
+  });
+
+  // Subtle parallax on project visuals
+  gsap.utils.toArray("[data-parallax]").forEach((el) => {
+    gsap.fromTo(el, { y: 40 }, {
+      y: -40, ease: "none",
+      scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 1 },
+    });
+  });
+}
+
+/* ---------------- Boot ---------------- */
 window.addEventListener("DOMContentLoaded", () => {
   initThree();
   initCursor();
   initNav();
-  if (typeof gsap !== "undefined") {
-    runLoader((animate) => initGsap(animate));
-  } else {
-    // GSAP failed to load — never leave the page stuck behind the loader.
-    revealAll();
-  }
+  if (typeof gsap !== "undefined") runLoader((animate) => initGsap(animate));
+  else revealAll();
 });
