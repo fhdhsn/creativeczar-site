@@ -110,7 +110,14 @@ main, .nav, .footer { position: relative; z-index: 2; }
 .ln > span { display: block; }
 
 /* ---------- Hero ---------- */
-.hero { min-height: 100vh; padding: clamp(104px, 15vh, 170px) clamp(20px, 5vw, 60px) clamp(40px, 7vh, 80px); display: flex; flex-direction: column; justify-content: center; position: relative; }
+.hero { min-height: 100vh; padding: clamp(104px, 15vh, 170px) clamp(20px, 5vw, 60px) clamp(40px, 7vh, 80px); display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+/* Looping industry montage behind the hero — grayscale + white scrim */
+.hero-media { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: var(--bg); }
+.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .38; filter: grayscale(1) contrast(1.08); }
+.hero-scrim { position: absolute; inset: 0; background:
+  linear-gradient(180deg, rgba(255,255,255,.74) 0%, rgba(255,255,255,.80) 60%, rgba(255,255,255,.92) 100%),
+  radial-gradient(120% 90% at 18% 42%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%); }
+.hero > :not(.hero-media) { position: relative; z-index: 1; }
 .hero-meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; color: var(--ink); margin-bottom: 34px; }
 .hero-meta span { position: relative; padding: 5px 12px; border: 1px solid var(--line); }
 .hero-title { font-family: var(--serif); font-weight: 800; font-size: clamp(40px, min(8.8vw, 12.5vh), 132px); line-height: .92; letter-spacing: -.04em; text-transform: uppercase; }
@@ -275,8 +282,16 @@ main, .nav, .footer { position: relative; z-index: 2; }
   .device-phone--back { transform: translate(40%, 14%) rotate(7deg) scale(.9); }
   body::before { background-image: repeating-linear-gradient(90deg, var(--line-soft) 0 1px, transparent 1px 50%); }
 }
+/* Hero video → static grayscale poster on phones and when motion is reduced */
+@media (max-width: 768px) {
+  .hero-video { display: none; }
+  .hero-media { background: #fff url("assets/hero-poster.jpg") center / cover no-repeat; }
+  .hero-scrim { background: linear-gradient(180deg, rgba(255,255,255,.80) 0%, rgba(255,255,255,.88) 55%, rgba(255,255,255,.95) 100%); }
+}
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; scroll-behavior: auto; }
   .reveal-fade, .reveal-word { opacity: 1; transform: none; }
   .ln > span { transform: none; }
+  .hero-video { display: none; }
+  .hero-media { background: #fff url("assets/hero-poster.jpg") center / cover no-repeat; }
 }
