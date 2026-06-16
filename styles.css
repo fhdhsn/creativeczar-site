@@ -122,8 +122,6 @@ main, .nav, .footer { position: relative; z-index: 2; }
   linear-gradient(180deg, rgba(255,255,255,.74) 0%, rgba(255,255,255,.80) 60%, rgba(255,255,255,.92) 100%),
   radial-gradient(120% 90% at 18% 42%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%); }
 .hero > :not(.hero-media) { position: relative; z-index: 1; }
-.hero-meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; color: var(--ink); margin-bottom: 34px; }
-.hero-meta span { position: relative; padding: 5px 12px; border: 1px solid var(--line); }
 .hero-title { font-family: var(--serif); font-weight: 800; font-size: clamp(40px, min(8.8vw, 12.5vh), 132px); line-height: .92; letter-spacing: -.04em; text-transform: uppercase; }
 .hero-title em { color: var(--accent); font-weight: 800; }
 .hero-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; margin-top: clamp(40px, 6vw, 70px); }
