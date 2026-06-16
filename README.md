@@ -5,9 +5,12 @@ A vibrant, bold marketing-agency website built with **GSAP** (scroll animations,
 ## Files
 | File | Purpose |
 |------|---------|
-| `index.html` | Markup & content |
+| `index.html` | Homepage markup & content |
+| `work.html` | Work / case-studies page |
 | `styles.css` | Styling, layout, responsive rules |
-| `main.js` | Three.js particle field + GSAP interactions (ES module) |
+| `main.js` | WebGL backdrop + GSAP interactions (ES module) |
+| `build-hero-video.sh` | Rebuilds the looping hero background montage + poster |
+| `assets/` | Images, packshots, and the hero video (`hero-bg.mp4`, `hero-poster.jpg`) |
 | `CNAME` | Custom domain for GitHub Pages |
 | `.nojekyll` | Tells GitHub Pages to serve files as-is |
 
@@ -52,6 +55,26 @@ In Namecheap → Domain List → **Manage** → **Advanced DNS**, set:
 | CNAME | www | `<YOUR_USERNAME>.github.io.` |
 
 Remove any default Namecheap "URL Redirect" / parking records on `@` and `www` first. DNS can take 30 min–24 h to propagate.
+
+## Hero background video
+
+The hero plays a 12s looping, grayscale industry montage (`assets/hero-bg.mp4`),
+with a white scrim for legibility and a poster fallback (`assets/hero-poster.jpg`)
+used on phones (`≤768px`) and when `prefers-reduced-motion` is set.
+
+The **source clips are not committed** (too large). To rebuild the montage, put the
+source `.mp4` files in a folder and run:
+
+```bash
+# defaults to ~/Desktop/Video
+./build-hero-video.sh
+# or point it anywhere
+SRC="/path/to/clips" ./build-hero-video.sh
+```
+
+Requires `ffmpeg` (`brew install ffmpeg`). Edit the `CLIPS` array (filenames, start
+times) and `SEG` (seconds per clip) near the top of the script to change the cut.
+The committed `.mp4`/`.jpg` are the output — commit them after rebuilding.
 
 ## Customize
 - **Colors**: edit the CSS variables at the top of `styles.css` (`--pink`, `--violet`, `--cyan`, …).
