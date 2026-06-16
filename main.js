@@ -27,11 +27,11 @@ function initThree() {
     uTime: { value: 0 },
     uRes: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
     uMouse: { value: new THREE.Vector2(0.5, 0.5) },
-    // warm, low-contrast palette tuned to the ivory page
-    uBg: { value: new THREE.Color("#EBE6DB") },
-    uC1: { value: new THREE.Color("#E4D8C6") }, // warm sand
-    uC2: { value: new THREE.Color("#EBD7CB") }, // faint ember tint
-    uC3: { value: new THREE.Color("#E6E2D6") }, // soft cream
+    // flat near-white — keeps the page paper-white for the Swiss layout
+    uBg: { value: new THREE.Color("#FFFFFF") },
+    uC1: { value: new THREE.Color("#FAFAFA") },
+    uC2: { value: new THREE.Color("#FFFFFF") },
+    uC3: { value: new THREE.Color("#F6F6F6") },
   };
 
   const material = new THREE.ShaderMaterial({
