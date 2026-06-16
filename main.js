@@ -132,8 +132,27 @@ function initNav() {
   window.addEventListener("scroll", () => nav.classList.toggle("scrolled", window.scrollY > 30));
   const burger = document.getElementById("burger");
   const menu = document.getElementById("mobileMenu");
-  burger.addEventListener("click", () => { burger.classList.toggle("open"); menu.classList.toggle("open"); });
-  menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => { burger.classList.remove("open"); menu.classList.remove("open"); }));
+  const setMenu = (open) => {
+    burger.classList.toggle("open", open);
+    menu.classList.toggle("open", open);
+    burger.setAttribute("aria-expanded", String(open));
+  };
+  burger.addEventListener("click", () => setMenu(!menu.classList.contains("open")));
+  menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
+}
+
+/* ---- Hero video: nudge autoplay (iOS/Safari can defer muted autoplay) ---- */
+function initHeroVideo() {
+  const v = document.querySelector(".hero-video");
+  if (!v) return;
+  v.muted = true; // required for autoplay; also set as a property
+  const tryPlay = () => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+  tryPlay();
+  v.addEventListener("loadeddata", tryPlay);
+  ["touchstart", "pointerdown", "scroll"].forEach((ev) =>
+    window.addEventListener(ev, tryPlay, { once: true, passive: true })
+  );
 }
 
 /* ---------------- Loader (with hard fallback) ---------------- */
@@ -219,6 +238,7 @@ window.addEventListener("DOMContentLoaded", () => {
   initThree();
   initCursor();
   initNav();
+  initHeroVideo();
   if (typeof gsap !== "undefined") runLoader((animate) => initGsap(animate));
   else revealAll();
 });
